@@ -1,1 +1,790 @@
-HELLO
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Cholera Visualization</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=letela+Round" rel="stylesheet">
+  <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/grayscale.min.css" rel="stylesheet">
+  <!-- Import Leaflet Library -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+        integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+        crossorigin=""/>
+  <!-- Graphing / Parsing / Mapping Utilities -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.0/papaparse.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+        integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+        crossorigin=""/>
+
+  <!-- Import leaflet.js javascript API library -->
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+          integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+          crossorigin=""></script>
+
+  <!-- Import Leaflet Draw library / CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js" integrity="sha256-65UqrlgGoRAnKfKRuriH3eeDrOhZgZo1SCenduc+SGo=" crossorigin="anonymous"></script>
+</head>
+
+<body id="page-top" onload="readFiles();">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a style="font-size: xx-large" class="navbar-brand js-scroll-trigger" href="#page-top">Cholera Data
+      Visualization</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+            aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div style="font-size: x-large" class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#about">Learn</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#projects">Visualize</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#signup">Prevent</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Header -->
+<header class="masthead" style="background: url('img/bg-medical.jpg');">
+  <div class="container d-flex h-100 align-items-center">
+    <div class="mx-auto text-center">
+      <h1 class="mx-auto my-0 text-uppercase">Cholera Data Visualization</h1>
+      <h2 style="font-size: 200%;" class="text-white-50 mx-auto mt-2 mb-4">Learn. Visualize. Prevent.</h2>
+      <!--<input class="btn btn-primary" type="file" id="choleraInput" onchange="processFiles()" multiple/><br><br>-->
+      <a href="#about" class="btn btn-primary js-scroll-trigger">What is Cholera?</a>
+    </div>
+  </div>
+</header>
+
+<!-- About Section -->
+<section id="about"
+         style="background: -webkit-gradient(linear, left top, left bottom, from(#165D71), color-stop(75%, rgba(22, 22, 22, 0.9)), to(rgba(22, 22, 22, 0.8)));"
+         class="about-section text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <h2 class="text-white mb-4">What is Cholera?</h2>
+        <p class="text-white-50">Cholera is an acute, diarrheal illness caused by infection of the intestine with the
+          toxigenic bacterium Vibrio cholerae serogroup O1 or O139. An estimated 2.9 million cases and 95,000 deaths
+          occur each year around the world. The infection is often mild or without symptoms, but can sometimes be
+          severe. Approximately one in 10 (10%) infected persons will have severe disease characterized by profuse
+          watery diarrhea, vomiting, and leg cramps. In these people, rapid loss of body fluids leads to dehydration and
+          shock. Without treatment, death can occur within hours.<br><br>
+          <a href="#projects" class="btn btn-primary js-scroll-trigger">Let's Visualize</a>
+          <!--<a href="https://www.cdc.gov/cholera/general/index.html"><br><b>More Information here.</b></a>-->
+        </p>
+      </div>
+    </div>
+    <img src="img/cholera-banner.png" class="img-fluid" alt="">
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="projects-section bg-light">
+
+  <div class="container">
+    <!-- Featured Project Row -->
+    <h1 class="text-center mb-4">What is Cholera?</h1>
+    <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+      <div class="col-xl-8 col-lg-7">
+        <div style="outline: 1px solid black" id="choleraDeaths"></div>
+        <!--<img class="img-fluid mb-3 mb-lg-0" src="img/bg-medical.jpg" alt="">-->
+      </div>
+      <div class="col-xl-4 col-lg-5">
+        <div class="featured-text text-center text-lg-left">
+          <h4>Deaths From Cholera</h4>
+          <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any
+            project - even commercial projects! Download it, customize it, and publish your website!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+      <div class="col-xl-8 col-lg-7">
+        <div style="outline: 1px solid black" id="choleraAgeSexTable"></div>
+        <!--<img class="img-fluid mb-3 mb-lg-0" src="img/bg-medical.jpg" alt="">-->
+      </div>
+      <div class="col-xl-4 col-lg-5">
+        <div class="featured-text text-center text-lg-left">
+          <h4>Deaths From Cholera</h4>
+          <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any
+            project - even commercial projects! Download it, customize it, and publish your website!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+      <div class="col-xl-8 col-lg-7">
+        <div style="outline: 1px solid black" id="choleraAgeSexBar"></div>
+        <!--<img class="img-fluid mb-3 mb-lg-0" src="img/bg-medical.jpg" alt="">-->
+      </div>
+      <div class="col-xl-4 col-lg-5">
+        <div class="featured-text text-center text-lg-left">
+          <h4>Deaths From Cholera</h4>
+          <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any
+            project - even commercial projects! Download it, customize it, and publish your website!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+      <div class="col-xl-8 col-lg-7">
+        <div style="outline: 1px solid black" id="choleraUKCensusTable"></div>
+        <!--<img class="img-fluid mb-3 mb-lg-0" src="img/bg-medical.jpg" alt="">-->
+      </div>
+      <div class="col-xl-4 col-lg-5">
+        <div class="featured-text text-center text-lg-left">
+          <h4>Deaths From Cholera</h4>
+          <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any
+            project - even commercial projects! Download it, customize it, and publish your website!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+      <div class="col-xl-8 col-lg-7">
+        <div style="outline: 1px solid black" id="choleraUKCensusPieMale"></div>
+        <!--<img class="img-fluid mb-3 mb-lg-0" src="img/bg-medical.jpg" alt="">-->
+      </div>
+      <div class="col-xl-4 col-lg-5">
+        <div class="featured-text text-center text-lg-left">
+          <h4>Deaths From Cholera</h4>
+          <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any
+            project - even commercial projects! Download it, customize it, and publish your website!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+      <div class="col-xl-8 col-lg-7">
+        <div style="outline: 1px solid black" id="choleraUKCensusPieFemale"></div>
+        <!--<img class="img-fluid mb-3 mb-lg-0" src="img/bg-medical.jpg" alt="">-->
+      </div>
+      <div class="col-xl-4 col-lg-5">
+        <div class="featured-text text-center text-lg-left">
+          <h4>Deaths From Cholera</h4>
+          <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any
+            project - even commercial projects! Download it, customize it, and publish your website!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+      <div class="col-xl-8 col-lg-7">
+        <div style="outline: 1px solid black" id="choleraUKCensusBarMale"></div>
+        <!--<img class="img-fluid mb-3 mb-lg-0" src="img/bg-medical.jpg" alt="">-->
+      </div>
+      <div class="col-xl-4 col-lg-5">
+        <div class="featured-text text-center text-lg-left">
+          <h4>Deaths From Cholera</h4>
+          <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any
+            project - even commercial projects! Download it, customize it, and publish your website!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+      <div class="col-xl-8 col-lg-7">
+        <div style="outline: 1px solid black" id="choleraUKCensusBarFemale"></div>
+        <!--<img class="img-fluid mb-3 mb-lg-0" src="img/bg-medical.jpg" alt="">-->
+      </div>
+      <div class="col-xl-4 col-lg-5">
+        <div class="featured-text text-center text-lg-left">
+          <h4>Deaths From Cholera</h4>
+          <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any
+            project - even commercial projects! Download it, customize it, and publish your website!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+      <div class="col-xl-8 col-lg-7">
+        <div style="outline: 1px solid black" id="choleraUKCensusPieBoth"></div>
+        <!--<img class="img-fluid mb-3 mb-lg-0" src="img/bg-medical.jpg" alt="">-->
+      </div>
+      <div class="col-xl-4 col-lg-5">
+        <div class="featured-text text-center text-lg-left">
+          <h4>Deaths From Cholera</h4>
+          <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any
+            project - even commercial projects! Download it, customize it, and publish your website!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+      <div class="col-xl-8 col-lg-7">
+        <div id="choleraMap" style="width: 740px; height: 450px; outline: 1px solid black;"></div>
+        <!--<img class="img-fluid mb-3 mb-lg-0" src="img/bg-medical.jpg" alt="">-->
+      </div>
+      <div class="col-xl-4 col-lg-5">
+        <div class="featured-text text-center text-lg-left">
+          <h4>Deaths From Cholera</h4>
+          <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any
+            project - even commercial projects! Download it, customize it, and publish your website!</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Project One Row -->
+  <!--<div class="row justify-content-center no-gutters mb-5 mb-lg-0">-->
+  <!--<div class="col-lg-6">-->
+  <!--<div class="" id="choleraAgeSex"></div>-->
+  <!--&lt;!&ndash;<img class="img-fluid" src="img/demo-image-01.jpg" alt="">&ndash;&gt;-->
+  <!--</div>-->
+  <!--<div class="col-lg-6">-->
+  <!--<div class="bg-black text-center h-100 project">-->
+  <!--<div class="d-flex h-100">-->
+  <!--<div class="project-text w-100 my-auto text-center text-lg-left">-->
+  <!--<h4 class="text-white">Misty</h4>-->
+  <!--<p class="mb-0 text-white-50">An example of where you can put an image of a project, or anything else, along with a description.</p>-->
+  <!--<hr class="d-none d-lg-block mb-0 ml-0">-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <!--&lt;!&ndash; Project Two Row &ndash;&gt;-->
+  <!--<div class="row justify-content-center no-gutters">-->
+  <!--<div class="col-lg-6">-->
+  <!--<img class="img-fluid" src="img/demo-image-02.jpg" alt="">-->
+  <!--</div>-->
+  <!--<div class="col-lg-6 order-lg-first">-->
+  <!--<div class="bg-black text-center h-100 project">-->
+  <!--<div class="d-flex h-100">-->
+  <!--<div class="project-text w-100 my-auto text-center text-lg-right">-->
+  <!--<h4 class="text-white">Mountains</h4>-->
+  <!--<p class="mb-0 text-white-50">Another example of a project with its respective description. These sections work well responsively as well, try this theme on a small screen!</p>-->
+  <!--<hr class="d-none d-lg-block mb-0 mr-0">-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+</section>
+
+<!-- Signup Section -->
+<section id="signup" class="signup-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-lg-8 mx-auto text-center">
+
+        <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
+        <h2 class="text-white mb-5">Subscribe to receive updates!</h2>
+
+        <form class="form-inline d-flex">
+          <input type="email" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputEmail"
+                 placeholder="Enter email address...">
+          <button type="submit" class="btn btn-primary mx-auto">Subscribe</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section bg-black">
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-md-4 mb-3 mb-md-0">
+        <div class="card py-4 h-100">
+          <div class="card-body text-center">
+            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
+            <h4 class="text-uppercase m-0">Address</h4>
+            <hr class="my-4">
+            <div class="small text-black-50">4923 Market Street, Orlando FL</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-3 mb-md-0">
+        <div class="card py-4 h-100">
+          <div class="card-body text-center">
+            <i class="fas fa-envelope text-primary mb-2"></i>
+            <h4 class="text-uppercase m-0">Email</h4>
+            <hr class="my-4">
+            <div class="small text-black-50">
+              <a href="#">hello@yourdomain.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-3 mb-md-0">
+        <div class="card py-4 h-100">
+          <div class="card-body text-center">
+            <i class="fas fa-mobile-alt text-primary mb-2"></i>
+            <h4 class="text-uppercase m-0">Phone</h4>
+            <hr class="my-4">
+            <div class="small text-black-50">+1 (555) 902-8832</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="social d-flex justify-content-center">
+      <a href="#" class="mx-2">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="#" class="mx-2">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="#" class="mx-2">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-black small text-center text-white-50">
+  <div class="container">
+    Copyright &copy; Your Website 2018
+  </div>
+</footer>
+
+<script>
+  var choleraDeathLocations = "";
+  var choleraDeaths = "";
+  var choleraPumpLocations = "";
+  var naplesCholeraAgeSexData = "";
+  var UKCensus1851 = "";
+
+  function readFiles() {
+    jQuery.get('./choleraData/choleraDeaths.tsv', function (txt) {
+      choleraDeaths = txt;
+    }).done(function () {
+      choleraDeaths = dataCleaning(choleraDeaths);
+      choleraDeathChart(choleraDeaths);
+    });
+
+    jQuery.get('./choleraData/choleraPumpLocations.csv', function (txt) {
+      choleraPumpLocations = txt;
+    }).done(function () {
+      jQuery.get('./choleraData/choleraDeathLocations.csv', function (txt) {
+        choleraDeathLocations = txt;
+      }).done(function () {
+        choleraPumpLocations = dataCleaning(choleraPumpLocations);
+        choleraDeathLocations = dataCleaning(choleraDeathLocations);
+        choleraDeathPumpLocMap(choleraPumpLocations, choleraDeathLocations);
+      });
+    });
+
+    jQuery.get('./choleraData/naplesCholeraAgeSexData.csv', function (txt) {
+      naplesCholeraAgeSexData = txt;
+    }).done(function () {
+      naplesCholeraAgeSexData = dataCleaning(naplesCholeraAgeSexData);
+      choleraAgeSexChart(naplesCholeraAgeSexData);
+    });
+
+    jQuery.get('./choleraData/UKcensus1851.csv', function (txt) {
+      UKCensus1851 = txt;
+    }).done(function () {
+      UKCensus1851 = dataCleaning(UKCensus1851)
+      ukCensusChart(UKCensus1851);
+    });
+  }
+
+  function dataCleaning(dirtyData) {
+    var dirtyNames = '';
+    var dirtyObject = [];
+    dirtyData = dirtyData.split('\n');
+    if (dirtyData[0].includes(',')) {
+      dirtyNames = dirtyData[0].split(',');
+      console.log(dirtyNames);
+      dirtyData[0] = '';
+      dirtyData.shift();
+      for (var i = 0; i < dirtyData.length; i++) {
+        var tempObject = {};
+        for (var j = 0; j < dirtyNames.length; j++) {
+          tempObject[dirtyNames[j]] = dirtyData[i].split(',')[j];
+        }
+        dirtyObject.push(tempObject);
+      }
+    } else {
+      dirtyNames = dirtyData[0].split('\t');
+      dirtyData.shift();
+      for (var i = 0; i < dirtyData.length; i++) {
+        var tempObject = {};
+        for (var j = 0; j < dirtyNames.length; j++) {
+          tempObject[dirtyNames[j]] = dirtyData[i].split('\t')[j];
+        }
+        dirtyObject.push(tempObject);
+      }
+    }
+    return dirtyObject;
+  }
+
+  // Function that adds up the values for each day to find total
+  function calculateUpto(array) {
+    var upToArray = [];
+    for (var i = 0; i < array.length; i++) {
+      if (i == 0) {
+        upToArray.push(parseInt(array[i]));
+      } else {
+        upToArray.push(parseInt(upToArray[i - 1]) + parseInt(array[i]));
+      }
+      upToArray[i].toString();
+    }
+    return upToArray;
+  }
+
+  // Function to graph choleraDeathChart
+  function choleraDeathChart(cleanData) {
+    var dates = [];
+
+    var attacks = []
+    var deaths = [];
+
+    var attacksUpTo = [];
+    var deathsUpTo = [];
+
+    for (var i = 0; i < cleanData.length; i++) {
+      dates.push(cleanData[i].Date)
+      attacks.push(cleanData[i].Attack);
+      deaths.push(cleanData[i].Death);
+    }
+
+    // Data trace for attacks on this day
+    var numOfAttacks = {
+      name: 'Attacks on this day',
+      x: dates,
+      y: attacks,
+      type: 'scatter+line+text',
+    };
+
+    // Data trace for deaths on this day
+    var numOfDeaths = {
+      name: 'Deaths on this day',
+      x: dates,
+      y: deaths,
+      type: 'scatter+line+text',
+    };
+
+    attacksUpTo = calculateUpto(attacks);
+    // Data trace for total attacks up to day
+    var upToAttacks = {
+      name: 'Total attacks up to this day',
+      x: dates,
+      y: attacksUpTo,
+      type: 'scatter+line+text',
+    };
+
+    deathsUpTo = calculateUpto(deaths);
+    // Data trace for total deaths up to day
+    var upToDeaths = {
+      name: 'Total deaths up to this day',
+      x: dates,
+      y: deathsUpTo,
+      type: 'scatter+line+text',
+    };
+
+    // Layout of the graph
+    var layout = {
+      title: 'Number of Deaths and Attacks from Cholera By Date',
+      height: 450,
+      margin: {
+        b: 130,
+      },
+      xaxis: {
+        title: 'Date (Day-Month-Year)',
+      },
+      yaxis: {
+        title: 'Attacks / Deaths',
+      }
+    };
+
+    // Compile all the traces
+    var data = [numOfAttacks, numOfDeaths, upToAttacks, upToDeaths];
+
+    // Plot the compiled traces with chosen layout
+    Plotly.newPlot('choleraDeaths', data, layout);
+  }
+
+  function choleraAgeSexChart(cleanData) {
+    var tableColumns = Object.getOwnPropertyNames(cleanData[0]);
+
+    var ageData = [];
+    var maleData = [];
+    var femaleData = [];
+
+    for (var i = 0; i < tableColumns.length; i++) {
+      tableColumns[i] = [tableColumns[i]];
+    }
+
+    for (var i = 0; i < cleanData.length; i++) {
+      ageData.push(cleanData[i].age);
+      maleData.push(cleanData[i].male);
+      femaleData.push(cleanData[i].female);
+    }
+
+    var data = [{
+      type: 'table',
+      header: {
+        values: tableColumns,
+        align: 'left',
+        line: { width: 1, color: 'black' },
+        fill: { color: "grey" },
+        font: { family: "Arial", size: 20, color: "white" },
+      },
+      cells: {
+        values: [ageData, maleData, femaleData],
+        align: 'left',
+        line: { color: "black", width: 1 },
+        font: { family: "Arial", size: 12, color: ["black"] },
+      },
+    }];
+
+    var layout = {
+      title: 'Naples in the Time of Cholera 1884-1911'
+    };
+
+    Plotly.newPlot('choleraAgeSexTable', data, layout);
+
+    var maleTrace = {
+      x: ageData,
+      y: maleData,
+      name: 'Male Fatalities',
+      type: 'bar',
+    };
+
+    var femaleTrace = {
+      x: ageData,
+      y: femaleData,
+      name: 'Female Fatalities',
+      type: 'bar',
+    };
+
+    data = [maleTrace, femaleTrace];
+
+    layout = {
+      title: 'Naples in the Time of Cholera 1884-1911',
+      barmode: 'group',
+    };
+
+    Plotly.newPlot('choleraAgeSexBar', data, layout);
+  }
+
+  function ukCensusChart(cleanData) {
+    var tableColumns = Object.getOwnPropertyNames(cleanData[0]);
+
+    var ageData = [];
+    var maleData = [];
+    var femaleData = [];
+
+    for (var i = 0; i < tableColumns.length; i++) {
+      tableColumns[i] = [tableColumns[i]];
+    }
+
+    for (var i = 0; i < cleanData.length; i++) {
+      ageData.push(cleanData[i].age);
+      maleData.push(cleanData[i].male);
+      femaleData.push(cleanData[i]["female\r"]);
+    }
+
+    ageData.push("Total");
+    maleData.push(Math.max(...calculateUpto(maleData)));
+    femaleData.push(Math.max(...calculateUpto(femaleData)));
+
+    var data = [{
+      type: 'table',
+      header: {
+        values: tableColumns,
+        align: 'left',
+        line: { width: 1, color: 'black' },
+        fill: { color: "grey" },
+        font: { family: "Arial", size: 20, color: "white" },
+      },
+      cells: {
+        values: [ageData, maleData, femaleData],
+        align: 'left',
+        line: { color: "black", width: 1 },
+        font: { family: "Arial", size: 12, color: ["black"] },
+      },
+    }];
+
+    var layout = {
+      title: 'UK CENSUS'
+    };
+
+    Plotly.newPlot('choleraUKCensusTable', data, layout);
+
+    ageData.pop();
+    maleData.pop();
+    femaleData.pop();
+
+    data = [{
+      values: maleData,
+      labels: ageData,
+      type: 'pie'
+    }];
+
+    layout = {
+      title: 'UK CENSUS MALE'
+    };
+
+    Plotly.newPlot('choleraUKCensusPieMale', data, layout);
+
+    data = [{
+      values: femaleData,
+      labels: ageData,
+      type: 'pie'
+    }];
+
+    layout = {
+      title: 'UK CENSUS FEMALE'
+    };
+
+    Plotly.newPlot('choleraUKCensusPieFemale', data, layout);
+
+    data = [{
+      y: maleData,
+      x: ageData,
+      name: 'Male',
+      type: 'bar'
+    }];
+
+    layout = {
+      title: 'UK CENSUS MALE'
+    };
+
+    Plotly.newPlot('choleraUKCensusBarMale', data, layout);
+
+    data = [{
+      y: femaleData,
+      x: ageData,
+      name: 'Female',
+      type: 'bar'
+    }];
+
+    layout = {
+      title: 'UK CENSUS FEMALE'
+    };
+
+    Plotly.newPlot('choleraUKCensusBarFemale', data, layout);
+
+    data = [{
+      values: [Math.max(...calculateUpto(maleData)), Math.max(...calculateUpto(femaleData))],
+      labels: ['Male', 'Female'],
+      type: 'pie'
+    }];
+
+    layout = {
+      title: 'UK CENSUS MALE / FEMALE'
+    };
+
+    Plotly.newPlot('choleraUKCensusPieBoth', data, layout);
+  }
+
+  function choleraDeathPumpLocMap(cleanPumpData, cleanDeathLocData) {
+    console.log(cleanDeathLocData);
+    var heatData = [];
+
+    var heatMapOptions = {
+      max: 3,
+      radius: 25,
+      blur: 45,
+    }
+
+    var openstreet = L.tileLayer(
+        'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; ' + '<a href="http://openstreetmap.org">OpenStreetMap</a>' + ' Contributors',
+          maxZoom: 18,
+        });
+
+    // Google tile layers: Streets, Hybrid, Satellite, and Terrain.
+    var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+
+    // Create a baseMaps object containing all the tile layers.
+    var baseMaps = {
+      "Google Streets": googleStreets,
+      "Google Hybrid": googleHybrid,
+      "Google Satellite": googleSat,
+      "Google Terrain": googleTerrain,
+      "OpenStreet": openstreet
+    };
+
+    var map = L.map('choleraMap', {
+      layers: [googleStreets, googleHybrid, googleSat, googleTerrain, openstreet]
+    }).setView([parseFloat(cleanDeathLocData[0].longitude), parseFloat(cleanDeathLocData[0].latitude)], 16);
+
+    for (var i = 0; i < cleanPumpData.length; i++) {
+      // Insert into the markers layer
+      L.marker([parseFloat(cleanPumpData[i].longitude), parseFloat(cleanPumpData[i].latitude)]).addTo(map);
+    }
+
+    for (var i = 0; i < cleanDeathLocData.length; i++) {
+      heatData.push([
+          parseFloat(cleanDeathLocData[i].longitude),
+          parseFloat(cleanDeathLocData[i].latitude),
+          parseFloat(cleanDeathLocData[i].death),
+      ]);
+    }
+    console.log(heatData);
+    var heatMap = L.heatLayer(heatData, heatMapOptions).addTo(map);
+    L.control.layers(baseMaps).addTo(map);
+  }
+</script>
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Plugin JavaScript -->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Custom scripts for this template -->
+<script src="js/grayscale.min.js"></script>
+</body>
+
+</html>
